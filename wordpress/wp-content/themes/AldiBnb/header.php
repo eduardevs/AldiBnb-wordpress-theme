@@ -1,10 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html <?php language_attributes(); ?>>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="<?php bloginfo('charset'); ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    
     <?php wp_head(); ?>
 </head>
-<body>
+
+<body <?php body_class(); ?>>
+    <header class="header">
+        <a href="<?php echo home_url( '/' ); ?>">
+            <img src="<?php echo get_template_directory_uri(); ?>/images/logo.svg" alt="Logo">
+        </a>
+        
+        <nav class="maNavbarHeader">
+
+            <?php
+            if (!is_user_logged_in()) {
+
+                wp_nav_menu(
+                    array(
+                        'theme_location' => 'main',
+                        'container' => false, // afin d'éviter d'avoir une div autour 
+                        'menu_class'     => 'menu-header',
+                    )
+                );
+            } else {
+
+                wp_nav_menu(
+                    array(
+                        'theme_location' => 'main_logged',
+                        'container' => false, // afin d'éviter d'avoir une div autour 
+                        'menu_class'     => 'menu-headerLogged',
+                    )
+                );
+            }
+            ?>
+        </nav>
+
+        <?php get_search_form(); ?>
+    </header>
     
+    <?php wp_body_open(); ?>
